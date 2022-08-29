@@ -23,11 +23,17 @@ class Error():
     def PageCheck(Page):
         if str(type(Page)) != "<class 'int'>":
             raise Exception("Page Not INT")
-    def PngSaveCheck(Path):
+    def PngSaveCheck(Path : str):
         if Path == "":
             raise Exception("Don't Have Png Save Path")
     def NsfwPngNotHaveApiKey():
         raise Exception("Don't Have ApiKey")
+    def TotalCheck(Total : int):
+        if Total == 0:
+            raise Exception("Don't Have Img")
+    def DataCheck(Data):
+        if Data == []:
+            raise Exception("The Page Don't Have Img")
 
 # time
 class TimeCommand():
@@ -131,11 +137,15 @@ class Search():
         global PngNameList
         global PngFileType
         print(f"\n==========Requests Start==========\nUrl : {Url}\n==========Requests Start==========")
+        TimeCommand.TimeAddGo()
         Req = requests.get(url=Url)
         ReqCode = Req.status_code
         ReqText = Req.text
         JsonData = TextToJson(ReqText)
         Data = JsonData["data"]
+        Error.DataCheck(Data)
+        Total = JsonData["mate"]["total"]
+        Error.TotalCheck(Total)
         PageNum = JsonData["meta"]["current_page"]
         print(f"\n==========Requests OK==========\nUrl : {Url}\n==========Requests OK==========")
         if ReqCode == 200:
@@ -155,5 +165,4 @@ class Search():
             Error.NsfwPngNotHaveApiKey()
 
 # Start
-TimeCommand.TimeAddGo()
-Search.SearchInit("genshin", Purity="nsfw", ApiKey="wujdxIsRu0KDDJegilcTuhYADRR1WyGR")
+Search.SearchInit("1231321312321312312", Purity="nsfw", ApiKey="wujdxIsRu0KDDJegilcTuhYADRR1WyGR")
