@@ -73,9 +73,8 @@ class Download():
         global PngNameList
         global PngFileType
         global PngSavePath
-        print(f"\n==========Download Start==========\nPage : {PageNum}\n==========Download Start==========")
+        print(f"\n==========Download Start==========\nPage : {PageNum}\n==========Download Start==========\n")
         for PngI in range(len(PngFileType)):
-            print(PngUrlList[PngI])
             Req = requests.get(url=PngUrlList[PngI])
             ReqCode = Req.status_code
             if ReqCode == 200:
@@ -143,17 +142,18 @@ class Search():
         ReqText = Req.text
         JsonData = TextToJson(ReqText)
         Data = JsonData["data"]
+        Meta = JsonData["meta"]
         Error.DataCheck(Data)
-        Total = JsonData["mate"]["total"]
+        Total = Meta["total"]
         Error.TotalCheck(Total)
-        PageNum = JsonData["meta"]["current_page"]
+        PageNum = Meta["current_page"]
         print(f"\n==========Requests OK==========\nUrl : {Url}\n==========Requests OK==========")
         if ReqCode == 200:
             for DataI in Data:
                 PngUrlList.append(Get.GetPngUrl(DataI))
                 PngNameList.append(Get.GetPngName(DataI))
                 PngFileType.append(Get.GetPngType(DataI))
-                Download.Png(PageNum)
+            Download.Png(PageNum)
         elif ReqCode == 429:
             print("Requests too many")
             TimeSleep = TimeCommand.TimeReturn()
@@ -165,4 +165,4 @@ class Search():
             Error.NsfwPngNotHaveApiKey()
 
 # Start
-Search.SearchInit("1231321312321312312", Purity="nsfw", ApiKey="wujdxIsRu0KDDJegilcTuhYADRR1WyGR")
+Search.SearchInit("genshin", Purity="nsfw", ApiKey="wujdxIsRu0KDDJegilcTuhYADRR1WyGR", SavePath=r"./Png/Genshin/Nsfw", Page=100)
