@@ -75,6 +75,7 @@ class Download():
         global PngSavePath
         print(f"\n==========Download Start==========\nPage : {PageNum}\n==========Download Start==========\n")
         for PngI in range(len(PngFileType)):
+            print(f"{PngPath} start - Download")
             Req = requests.get(url=PngUrlList[PngI])
             ReqCode = Req.status_code
             if ReqCode == 200:
