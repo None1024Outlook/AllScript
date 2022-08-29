@@ -40,7 +40,7 @@ class TimeCommand():
         threading.Thread(target=TimeCommand.TimeAdd)
     def TimeReturn():
         global Time
-        return (61 - Time)
+        return (60 - (Time % 60))
 
 # Json
 def TextToJson(ReqText : str):
